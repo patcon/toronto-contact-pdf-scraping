@@ -25,8 +25,11 @@ for datum in data:
     q = "//fontspec[@family='Times' and @size='{}' and @color='#{}']".format(size, color)
     fontspec = root.xpath(q)
     headers += fontspec
-for font in headers:
-    print(font.attrib)
+
+debug = False
+if debug:
+    for font in headers:
+        print(font.attrib)
 
 xpath_filter = ' or '.join(["@font='{}'".format(font.attrib['id']) for font in headers])
 elems = root.xpath(".//text[{}]".format(xpath_filter))
@@ -40,6 +43,7 @@ for e in elems:
 
     next_e = e.xpath('./following-sibling::text')[0]
     if next_e.attrib['font'] == e.attrib['font']:
+        if not next_e.xpath('./b'): continue
         next_header = next_e.xpath('./b')[0].text.strip()
         if next_header.startswith('Wards'): continue
         header = header + ' ' + next_header
