@@ -1,3 +1,2 @@
 *.png
-*.pdf
-sources/
+sources/*.pdf
